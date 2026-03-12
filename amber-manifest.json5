@@ -1,0 +1,38 @@
+{
+  // AgentBeats amber manifest for purple builder agent
+  "version": "1.0.0",
+  "agent": {
+    "type": "purple",
+    "name": "Purple Builder Agent",
+    "description": "A high-performance purple agent for the build_what_i_mean benchmark. Uses LLM-powered spatial reasoning with pragmatic speaker modeling."
+  },
+  "docker": {
+    "image": "${DOCKER_IMAGE}",
+    "ports": ["9018:9018"],
+    "env": {
+      "OPENAI_API_KEY": {
+        "sensitive": true,
+        "required": true,
+        "description": "OpenAI API key for LLM calls"
+      },
+      "AGENT_MODEL": {
+        "sensitive": false,
+        "required": false,
+        "default": "openai/gpt-4o",
+        "description": "LiteLLM model identifier"
+      },
+      "AGENT_TEMPERATURE": {
+        "sensitive": false,
+        "required": false,
+        "default": "0.0",
+        "description": "LLM temperature for deterministic outputs"
+      }
+    }
+  },
+  "endpoints": {
+    "a2a": {
+      "port": 9018,
+      "path": "/"
+    }
+  }
+}
