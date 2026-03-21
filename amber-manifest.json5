@@ -1,7 +1,7 @@
 {
   manifest_version: "0.1.0",
   program: {
-    image: "ghcr.io/sadidromero77/purple-agent-beats-build-what-i-mean:main",
+    image: "ghcr.io/hisandan/purple-agent-beats-build-what-i-mean:main",
     entrypoint: [
       "uv",
       "run",
