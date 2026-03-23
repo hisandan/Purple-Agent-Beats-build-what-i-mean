@@ -135,13 +135,13 @@ Analyze:
 3. Given the speaker context, would you likely guess correctly?
 
 Respond with ONLY a JSON object:
-{
+{{
   "is_ambiguous": true/false,
   "ambiguity_type": "color_under" | "number_under" | "position_under" | "fully_spec",
   "confidence_without_asking": 0.0-1.0,
   "should_ask": true/false,
   "question": "the question to ask if should_ask is true"
-}"""
+}}"""
 
 
 class BuilderAgent:
