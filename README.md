@@ -1,6 +1,6 @@
 # Purple Builder Agent -- Build What I Mean
 
-**Team TRIBUIA** | AgentBeats Phase 2 Sprint 1 | March 2026
+**Team Manada Werewolve** | AgentBeats Phase 2 Sprint 1 | March 2026
 
 A purple agent for the **build_what_i_mean** benchmark on [AgentBeats](https://agentbeats.dev) that constructs block structures on a 9x9x5 grid from natural-language instructions, combining LLM-powered spatial reasoning with pragmatic speaker modeling and strategic information gathering.
 
@@ -114,11 +114,14 @@ docker run -p 9018:9018 -e OPENAI_API_KEY="your-key" purple-builder
 | `AGENT_MODEL` | `openai/gpt-4o` | LiteLLM model identifier |
 | `AGENT_TEMPERATURE` | `0.0` | LLM temperature (0 = deterministic) |
 
-## Team
+## Team -- Manada Werewolve
 
-- **Team TRIBUIA**
-- Daniel Santiago Sandoval Higuera
-- Julian Anibal Henao ([@julianAnibal](https://github.com/julianAnibal))
+| Name | GitHub |
+|------|--------|
+| Daniel Santiago Sandoval Higuera | [@hisandan](https://github.com/hisandan) |
+| Sadid Alexis Romero Mahecha | [@SadidRomero77](https://github.com/SadidRomero77) |
+| Julian Anibal Henao Garcia | [@julianAnibal](https://github.com/julianAnibal) |
+| Andres Felipe Garcia Sanchez | [@garciaaf17](https://github.com/garciaaf17) |
 
 ## License
 
