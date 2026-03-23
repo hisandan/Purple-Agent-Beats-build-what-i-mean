@@ -6,7 +6,11 @@ Grid coordinate system and block manipulation utilities.
 VALID_X = [-400, -300, -200, -100, 0, 100, 200, 300, 400]
 VALID_Z = [-400, -300, -200, -100, 0, 100, 200, 300, 400]
 VALID_Y = [50, 150, 250, 350, 450]
-VALID_COLORS = {"RED", "BLUE", "GREEN", "YELLOW", "PURPLE"}
+VALID_COLORS = {
+    "RED", "BLUE", "GREEN", "YELLOW", "PURPLE",
+    "ORANGE", "WHITE", "BLACK", "BROWN", "PINK",
+    "GREY", "GRAY", "CYAN",
+}
 
 GRID_SIZE = 9
 CELL_SIZE = 100
