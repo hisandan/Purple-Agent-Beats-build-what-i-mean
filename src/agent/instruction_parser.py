@@ -132,32 +132,66 @@ def detect_ambiguity_type(instruction: str, start_blocks: list[tuple[str, int, i
     Detect if an instruction is ambiguous and what type.
 
     Returns: 'fully_spec', 'color_under', or 'number_under'
+
+    Uses per-clause analysis: splits instruction into clauses and checks
+    each one for missing color or count between the placing verb and noun.
     """
     instruction_lower = instruction.lower()
+    color_words = {"red", "blue", "green", "yellow", "purple",
+                   "orange", "white", "black", "brown", "pink",
+                   "grey", "gray", "cyan"}
 
-    # Check for color underspecification
-    # Color is underspecified when instruction mentions blocks without specifying color
-    # and there are existing blocks of a specific color
-    has_existing_blocks = len(start_blocks) > 0
+    # Split into clauses
+    clauses = re.split(r'\.\s+|\bthen\b|\band\s+then\b|,\s*then\b', instruction_lower)
 
-    if has_existing_blocks:
-        # Words that suggest adding blocks without specifying a color
-        color_words = {"red", "blue", "green", "yellow", "purple"}
-        mentioned_colors = {w for w in color_words if w in instruction_lower}
+    placing_verbs = r'(?:stack|place|build|add|put|extend|create|make)'
+    block_nouns = r'(?:blocks?|stack|tower|row|line|column)'
 
-        # Check for quantifiers without explicit color
-        has_quantity = bool(re.search(
-            r'\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b',
-            instruction_lower
-        ))
+    has_missing_color = False
+    has_missing_count = False
 
-        # If instruction mentions adding blocks but uses ambiguous color references
-        if "block" in instruction_lower and not mentioned_colors and has_quantity:
-            return "color_under"
+    for clause in clauses:
+        clause = clause.strip()
+        if not clause:
+            continue
 
-        # Check for number underspecification
-        # "add more blocks", "stack blocks", without specific count
-        if "block" in instruction_lower and not has_quantity:
-            return "number_under"
+        # Find placing verb → block noun patterns
+        for m in re.finditer(
+            r'\b' + placing_verbs + r'\b(.*?)\b' + block_nouns + r'\b',
+            clause,
+        ):
+            between = m.group(1)  # text BETWEEN verb and noun
 
+            # Check for color between verb and noun
+            has_color_between = any(
+                re.search(r'\b' + c + r'\b', between) for c in color_words
+            )
+            if not has_color_between:
+                has_missing_color = True
+
+            # Check for count between verb and noun
+            has_count_between = bool(re.search(
+                r'\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten)\b',
+                between,
+            ))
+            # "a" or "an" implies count=1
+            has_article = bool(re.search(r'\ba\b|\ban\b', between))
+
+            if not has_count_between and not has_article:
+                has_missing_count = True
+
+        # Also check "Build a [color] stack/tower" without count
+        stack_m = re.search(
+            r'\b(?:build|make|create)\s+a\s+(?:\w+\s+)?(?:stack|tower)\b',
+            clause,
+        )
+        if stack_m:
+            after = clause[stack_m.end():]
+            if not re.search(r'^\s*(?:of\s+)?(\d+|one|two|three|four|five)\b', after):
+                has_missing_count = True
+
+    if has_missing_color:
+        return "color_under"
+    if has_missing_count:
+        return "number_under"
     return "fully_spec"
